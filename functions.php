@@ -6,7 +6,8 @@
 * @since Cherry Premium 1.0
 */
 
-// Add theme support
-add_theme_support('custom-logo');
-add_theme_support('menus');
-add_theme_support('widgets');
+// Remove generic wordpress stuff that's unnecessary for most sites
+require get_template_directory() / '/inc/template-tidy.php'
+
+// Add custom editor styles
+add_editor_style('')
