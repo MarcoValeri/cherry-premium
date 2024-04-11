@@ -1,3 +1,4 @@
+<?php get_header(); ?>
 <main class="wp-block-group">
     <h2>index.php</h2>
     <?php
@@ -19,8 +20,5 @@
         }
     }
     ?>
-    <div>
-	    <!-- wp:post-title  /-->
-	    <!-- wp:post-content /-->
-    </div>
 </main>
+<?php get_footer(); ?>

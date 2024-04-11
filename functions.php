@@ -14,5 +14,6 @@ require get_template_directory() . "/inc/custom-blocks.php";
 // Load CSS nad JS files
 function cherrypremium_enqueue_script() {
     wp_enqueue_style("style-css", get_template_directory_uri() . "/style.css", false, "1.1", "all");
+    wp_enqueue_style("style-main-css", get_template_directory_uri() . "/assets/css/main.css", false, "1.1", "all");
 }
 add_action("wp_enqueue_scripts", "cherrypremium_enqueue_script");

@@ -5,8 +5,9 @@ const { createElement } = wp.element;
 
 registerBlockType('cherrypremium/content', {
     title: 'Content',
-    icon: 'magaphone',
-    category: 'common',
+    description: 'This content show content block',
+    category: 'theme',
+    icon: 'media-document',
 
     attributes: {
         setContainerClass: {type: 'string'},
@@ -24,7 +25,7 @@ registerBlockType('cherrypremium/content', {
         }
 
         return (
-            createElement('aside', {className: `${className}`},
+            createElement('div', {className: `${className}`},
                 createElement(InspectorControls, null,
                     createElement(PanelBody, {title: 'Settings'},
                         createElement(TextControl, {

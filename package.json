@@ -1,0 +1,8 @@
+{
+    "scripts": {
+        "scss": "sass assets/scss/main.scss assets/css/main.css -w"
+    },
+  "dependencies": {
+        "sass": "^1.74.1"
+    }
+}
