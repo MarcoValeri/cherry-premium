@@ -2,7 +2,6 @@
 /**
  * Cherry Premium remove wordpress junk
  *
- *
  * @package WordPress
  * @since 1.0.0
  */
@@ -10,6 +9,7 @@
 /**
 * Tidy up Wordpress default outputs *** *** *** *** *** *** *** *** *** *** *** *** *** *** *** *** *** *** *** *** 
 */
+
 add_filter( 'emoji_svg_url', '__return_false' ); // REMOVE WP EMOJI
 remove_action('wp_head', 'print_emoji_detection_script', 7);// REMOVE WP EMOJI
 remove_action('wp_print_styles', 'print_emoji_styles');// REMOVE WP EMOJI

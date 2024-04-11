@@ -1,48 +1,87 @@
 const { registerBlockType } = wp.blocks;
 const { MediaUpload, RichText, InnerBlocks, InspectorControls, PanelColorSettings, URLInput } = wp.blockEditor;
-const { ToggleControl, PanelBody, SelectControl,RadioControl, Button } = wp.components;
+const { ToggleControl, PanelBody, SelectControl, RadioControl, Button, TextControl } = wp.components;
 const { createElement } = wp.element;
 
-registerBlockType("cherrypremium/test", {
-    title: "Test",
-    icon: "magaphone",
-    category: "common",
-    
+registerBlockType('cherrypremium/content', {
+    title: 'Content',
+    icon: 'magaphone',
+    category: 'common',
+
     attributes: {
-        text: { type: "string" },
-        backgroundColor: { type: "string" },
-        iconUrl: { type: "string" }
+        setContainerClass: {type: 'string'},
+        setHeadline: {type: 'string'},
+        setContent: {type: 'string'},
+        setBackgroundColor: {type: 'string'},
+        setImage: {type: 'string'},
     },
 
     edit: function(props) {
-        const { attributes: { text, backgroundColor, iconUrl }, setAttributes, className } = props;
+        const {attributes: {setContainerClass, setHeadline, setContent, setBackgroundColor, setImage}, setAttributes, className} = props;
 
-        const onSelectIcn = media => {
-            setAttributes({ iconUrl: media.url });
+        const onSelectSetImage = media => {
+            setAttributes({setImage: media.ul});
         }
 
-        return createElement("test-class", { className: `${className}` },
-            createElement(RichText, {
-                tagName: 'p',
-                placeholder: 'Enter text here',
-                value: text,
-                onChange: (value) => setAttributes({ text: value }),
-                keepPlaceholderOnFocus: true
-            }),
+        return (
+            createElement('aside', {className: `${className}`},
+                createElement(InspectorControls, null,
+                    createElement(PanelBody, {title: 'Settings'},
+                        createElement(TextControl, {
+                            label: 'Set the classes for the main container',
+                            value: setContainerClass,
+                            onChange: value => setAttributes({setContainerClass: value})
+                        }),
+                        createElement(TextControl, {
+                            label: 'Set the background of this component',
+                            value: setBackgroundColor,
+                            onChange: value => setAttributes({setBackgroundColor: value})
+                        }),
+                    )
+                ),
+                createElement('div', {className: 'content'},
+                    createElement(MediaUpload, {
+                        onSelect: onSelectSetImage,
+                        allowedTypes: ['image'],
+                        value: setImage,
+                        render: ({open}) => createElement(Button, {onClick: open}, 'Choose an image')
+                    }),
+                    createElement(RichText, {
+                        tagName: 'h2',
+                        placeholder: 'Eneter your headline here',
+                        value: setHeadline,
+                        onChange: value => setAttributes({setHeadline: value}),
+                        keepPlaceholderOnFocus: true
+                    }),
+                    createElement(RichText, {
+                        tagName: 'p',
+                        placeholder: 'Enter your content here',
+                        value: setContent,
+                        onChange: value => setAttributes({setContent: value}),
+                        keepPlaceholderOnFocus: true
+                    }),
+                )
+            )
         )
     },
 
     save: function(props) {
-        const { text, backgroundColor, iconUrl } = props.attributes;
+        const {attributes: {setContainerClass, setHeadline, setContent, setBackgroundColor, setImage}} = props;
 
-        return createElement('aside', { className: `test-class` },
-            iconUrl && createElement('img', { src: iconUrl, className: `icon-${iconPosition}` }),
-            createElement('div', { className: `${iconPosition} ${backgroundColor}` },
-                createElement(RichText.Content, { tagName: 'p', value: text }),
-                showButton && createElement('div', { className: 'callout-button' },
-                    createElement(InnerBlocks.Content)
+        return (
+            createElement('div', {className: `content ${setContainerClass}`},
+                createElement('div', {className: 'content__container-wrapper'},
+                    createElement('div', {className: 'content__container-image'},
+                        createElement('div', {src: setImage, className: 'content__img'})
+                    ),
+                    createElement('div', {className: 'content__container-title'},
+                        createElement('h2', {className: 'content__title', dangerouslySetInnerHTML: { __html: setHeadline}})
+                    ),
+                    createElement('div', {className: 'content__container-content'},
+                        createElement('p', {className: 'content__content', dangerouslySetInnerHTML: { __html: setContent}})
+                    )
                 )
             )
-        );
+        )
     }
-})
+});
